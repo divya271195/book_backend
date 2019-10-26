@@ -118,6 +118,9 @@
 package com.jwt.jwtauth.security;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -144,6 +147,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		super(authManager);
 
 	}
+	@Autowired
+	private Environment env;
 
 	@Override
 
@@ -154,6 +159,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			FilterChain chain) throws IOException, ServletException {
 
 		String header = req.getHeader(HEADER_STRING);
+		
 
 		if (header == null || !header.startsWith(TOKEN_PREFIX)) {
 
@@ -164,6 +170,18 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		}
 
 		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+
+
+		//String name = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(header).getBody().get("username", String.class);
+				
+		//String role=creds.getRole();
+		String path = env.getProperty("admin.url");
+		//res.getWriter().write(new Gson().toJson(name));
+		/*if(role=="USER") {
+			  
+			
+		}*/
+
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 

@@ -1,29 +1,31 @@
 package com.jwt.jwtauth.Exceptions;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
+import com.jwt.jwtauth.model.Systemerror;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-
-public class ResourceNotFoundException extends Exception {
+@Getter
+public class ResourceNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = -9079454849611061074L;
-	private int code;
+	
+	private Systemerror err;
+
 
 	public ResourceNotFoundException() {
 		super();
 	}
 
-	public ResourceNotFoundException(final String message, final int code) {
-		super(message);
-		this.code = code;
+	public ResourceNotFoundException(Systemerror err) {
+		super(err.getMsg());
+		this.err=err;
+		
+		
+		
+		
 
 	}
 	
-
-	public int getCode() {
-		return code;
-	}
-
-
 }

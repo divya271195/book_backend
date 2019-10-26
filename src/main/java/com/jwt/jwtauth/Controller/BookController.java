@@ -1,7 +1,7 @@
 package com.jwt.jwtauth.Controller;
 
 import java.util.List;
-import javax.validation.Valid;
+import com.jwt.jwtauth.model.Systemerror;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +38,8 @@ public class BookController {
 	}
 
 
-	@PostMapping("/admin/addbook") // POST Method for Create operation
-	public Book createBook(@Valid @RequestBody Book book) {
+	@PostMapping("/addbook") // POST Method for Create operation
+	public Book createBook(@RequestBody Book book) {
 		book.setRank(0);
 		book.setTitle((book.getTitle().toLowerCase()));
 		return BookRepository.save(book);
@@ -50,9 +50,9 @@ public class BookController {
 	public Book getBookById(@PathVariable(value = "id") int bookId) throws ResourceNotFoundException {
 		Book b = BookRepository.findById(bookId);
 		if (b == null) {
-			log.error("not found error");
+			log.error(""+Systemerror.BOOK_NOT_FOUND);
 
-			throw new ResourceNotFoundException("book not found",404);
+			throw new ResourceNotFoundException(Systemerror.BOOK_NOT_FOUND);
 		}
 		return b;
 	}
@@ -73,14 +73,14 @@ public class BookController {
 
 
 	@GetMapping("/search/author/{author}") // GET Method for Read operation
-	public List<Book> getBookByAuthor(@PathVariable(value = "author") String auth) {
+	public List<Book> getBookByAuthor(@PathVariable(value = "author") String auth) throws ResourceNotFoundException {
 		// throws ResourceNotFoundException{
 
 		List<Book> b = BookRepository.findByAuthor(auth);
 		if (b.isEmpty()) {
 			log.error("not found ");
 			
-			throw new ResourceNotFoundException("book does not exist",404);
+			throw new ResourceNotFoundException(Systemerror.BOOK_NOT_FOUND);
 		}
 
 		return b;
@@ -88,11 +88,11 @@ public class BookController {
 
 
 	@GetMapping("/search/title/{T}") // GET Method for Read operation
-	public List<Book> getBookByTitle(@PathVariable(value = "T") String title) {
+	public List<Book> getBookByTitle(@PathVariable(value = "T") String title) throws ResourceNotFoundException {
 		List<Book> b = BookRepository.findByTitle(title.toLowerCase());
 		if (b.isEmpty()) {
 			log.error("not found");
-			throw new ResourceNotFoundException("book does not exist",404);
+			throw new ResourceNotFoundException(Systemerror.BOOK_NOT_FOUND);
 			
 		}
 		return b;
@@ -101,7 +101,7 @@ public class BookController {
 
 	@PutMapping("/update/{id}/{quantity}")
 	public StatusUpdateResponse updateBookStock(@PathVariable(value = "id") int id,
-			@PathVariable(value = "quantity") int quantity) {
+			@PathVariable(value = "quantity") int quantity) throws ResourceNotFoundException {
 		Book book;int stock;
 		StatusUpdateResponse res = new StatusUpdateResponse();
 
@@ -109,7 +109,7 @@ public class BookController {
 		if (book == null) {
 
 			log.error("not found");
-			throw new ResourceNotFoundException("book does not exist", 404);
+			throw new ResourceNotFoundException(Systemerror.BOOK_NOT_FOUND);
 
 		}
 		stock=book.getInventory();

@@ -139,8 +139,10 @@ import com.google.gson.Gson;
 import com.jwt.jwtauth.model.ApplicationUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.core.env.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -165,11 +167,16 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private AuthenticationManager authenticationManager;
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
+	//@Autowired
+	//private Environment env;
+
+	
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
 
 		this.authenticationManager = authenticationManager;
 
 	}
+	
 
 	@Override
 
@@ -182,6 +189,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			ApplicationUser creds = new ObjectMapper()
 
 					.readValue(req.getInputStream(), ApplicationUser.class);
+			//String role=creds.getRole();
+			//String path = env.getProperty("admin.url");
+			  
+			//if(role=="USER") {
+				  
+				
+		//	}
 
 			return authenticationManager.authenticate(
 
@@ -194,6 +208,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 							new ArrayList<>())
 
 			);
+			
+			
 
 		} catch (IOException e) {
 
@@ -238,7 +254,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
 		Response res = new Response();
-		res.setStatus(403);
+		res.setStatus(401);
 		res.setMessage("Wrong Credentials ");
 		log.error(res+"");
 		response.getWriter().write(new Gson().toJson(res));

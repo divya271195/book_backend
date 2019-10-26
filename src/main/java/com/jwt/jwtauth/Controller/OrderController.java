@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jwt.jwtauth.model.Book;
 import com.jwt.jwtauth.model.Order;
 import com.jwt.jwtauth.model.StatusUpdateResponse;
+import com.jwt.jwtauth.model.Systemerror;
 import com.jwt.jwtauth.model.item;
 import com.jwt.jwtauth.repo.Orderrepo;
 import com.jwt.jwtauth.repo.Bookrepo;
@@ -67,7 +68,7 @@ public class OrderController {
 
 
 	@PostMapping("/") // POST Method for Create operation
-	public Order createOrder(@Valid @RequestBody Order order) {
+	public Order createOrder(@Valid @RequestBody Order order) throws ResourceNotFoundException {
 		int bookId, quantity;
 		int inventory;
 		Book book;
@@ -103,7 +104,7 @@ public class OrderController {
 		return OrderRepository.save(order);
 	}catch(Exception ex) {
 		log.error("internal server error  error code : "+ 500);
-throw new ResourceNotFoundException("Internal server error", 500);
+throw new ResourceNotFoundException(Systemerror.INTERNAL_SERVER_ERROR);
 		
 	}
 	}}

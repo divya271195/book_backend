@@ -3,6 +3,7 @@ package com.jwt.jwtauth.Exceptions;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,7 +38,7 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 	 * ExceptionResponse error = new ExceptionResponse(); error.setErrorMessage(exception.getMessage());
 	 * error.setRequestedURI(request.getRequestURI()); error.setErrorCode(500); return error; }
 	 */
-
+/*
 	@ExceptionHandler(Exception.class)
 	public @ResponseBody ExceptionResponse handleAllExceptions(Exception ex, WebRequest request) {
 		ExceptionResponse error = new ExceptionResponse();
@@ -46,18 +47,21 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 		error.setErrorCode(500);
 		return error;
 
-	}
+	}*/
 
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public @ResponseBody ExceptionResponse handleUserNotFoundException(ResourceNotFoundException ex,
+	public @ResponseBody ResponseEntity handleUserNotFoundException(ResourceNotFoundException ex,
 			WebRequest request) {
-
-
-		
 		ExceptionResponse error = new ExceptionResponse();
-		error.setErrorMessage(ex.getMessage());
-		error.setErrorCode(ex.getCode());
-		return error;
+		error.setErrorMessage(ex.getErr().getMsg());
+
+		error.setErrorCode(ex.getErr().getCode());
+				
+		
+		return new ResponseEntity(error,HttpStatus.NOT_FOUND);
+		
+		
+		
 	}
 
 	@Override
