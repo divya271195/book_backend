@@ -1,6 +1,8 @@
 package com.jwt.jwtauth.Controller;
 
 import java.util.List;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jwt.jwtauth.model.ApplicationUser;
 import com.jwt.jwtauth.repo.ApplicationUserRepository;
+import com.jwt.jwtauth.security.JWTAuthorizationFilter;
 @RestController
 
 @RequestMapping("/users")
@@ -38,12 +41,14 @@ public class UserController {
 
 	@PostMapping("/sign-up")
 
-	public void signUp(@RequestBody ApplicationUser user) {
+	public void signUp(@Valid@RequestBody ApplicationUser user) {
 
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setRole("USER");
 		applicationUserRepository.save(user);
 
 	}
+	
+	
 
 }

@@ -21,6 +21,7 @@ import com.jwt.jwtauth.repo.Bookrepo;
 @RequestMapping("/store/book")
 
 
+
 public class BookController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired

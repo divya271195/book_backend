@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.ArrayList;
@@ -33,13 +36,15 @@ public class ApplicationUser {
 	@Column(name = "id", nullable = false)
 	private long id;
 
+	@Pattern(regexp="^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$")
 	@Column(name = "username", nullable = false)
 	private String username;
 
+	
 	@Column(name = "password", nullable = false)
 	private String password;
 
-
+	@Pattern(regexp = "^[a-zA-Z\\\\s]*$")
 	@Column(name = "name")
 	private String name;
 
@@ -47,7 +52,7 @@ public class ApplicationUser {
 	@Column(name = "address")
 	private String address;
 
-
+@Pattern(regexp="\\S+@\\S+\\.\\S+")
 	@Column(name = "email")
 	private String email;
 
@@ -55,22 +60,7 @@ public class ApplicationUser {
 	@Column(name = "role")
 	 private String role;
 
-	/*@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "USER_ROLES", joinColumns = {@JoinColumn(name = "USER_ID")},
-			inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
-	private Set roles;
-*/
-
-
-	
-    public List<String> getRoleList(){
-        if(this.role.length() > 0){
-            return Arrays.asList(this.role.split(","));
-        }
-        return new ArrayList<>();
-    }
-
-	@Size(min = 3, max = 50)
+	@Pattern(regexp="^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$")
 	private String contact;
 
 

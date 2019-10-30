@@ -35,10 +35,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/store/book/**").permitAll()
 
 				.antMatchers(HttpMethod.POST, "/users/sign-up").permitAll()
-
-				// .antMatchers(HttpMethod.POST, "/store/book/**").access("hasRole('ADMIN')")
-				// .antMatchers(HttpMethod.GET, "/api/status").access("hasRole('ROLE_ADMIN') or " +
-
 				.anyRequest().authenticated()
 
 				.and()
@@ -48,6 +44,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()));
 
 	}
+	
 
 	@Override
 

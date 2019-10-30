@@ -13,6 +13,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "books")
@@ -31,9 +34,11 @@ public class Book {
 
 	private int id;
 
+	@Pattern(regexp = "^[a-zA-Z\\\\s]*$")
 	@Column(name = "author", nullable = false)
 	private String author;
 
+	
 	@Column(name = "title", nullable = false)
 	private String title;
 
@@ -49,12 +54,14 @@ public class Book {
 	@Column(name = "price", nullable = false)
 	private double price;
 
+	@Pattern(regexp="^[0-9]*$")
 	@Column(name = "inventory")
 	private int inventory;
 
 	@Column(name = "icon")
 	private String icon;
 
+	
 	@Column(name = "rank")
 	private int rank;
 
