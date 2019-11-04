@@ -179,7 +179,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		String token = header.replace(TOKEN_PREFIX, "");
 		// boolean a=parse(token,req);
 		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-
+		
+		//authentication= parse(token,req);
+		
+		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
@@ -188,7 +191,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	}
 
 
-	public boolean parse(String token, HttpServletRequest req) throws NullPointerException {
+	public UsernamePasswordAuthenticationToken parse(String token, HttpServletRequest req) throws NullPointerException {
 		Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
 		ApplicationUser user = new ApplicationUser();
 		
@@ -198,10 +201,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		String requestURL = new String(req.getRequestURL().toString());
 		if(requestURL.matches("store/books/admin/**")) {
 			if(!role.equals("ADMIN"))
-				{return false;}
+				{return null;}
 		}
 
-		return true;
+		return  new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 	}
 
 
@@ -249,7 +252,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		response.setStatus(400);
 		response.setMessage("The token is either invalid or expired");
 		res.getWriter().write(new Gson().toJson(response));
-
 	}
 
 
