@@ -64,10 +64,10 @@ public class ApplicationUser implements Serializable {
 	private AddressINfo addressINfo;
 	
 	@Type(type = "ContactInfoType")
-	private ContactInfo contactInfo;
+	private ContactInfo contactinfo;
 	
 	@Type(type = "CourseInfoType")
-	private CourseInfo courseInfo;
+	private CourseInfo courseinfo;
 	
 	@Type(type = "CardDetailType")
 	private CardDetail carddetail;
@@ -77,10 +77,10 @@ public class ApplicationUser implements Serializable {
 	private roleDetail roledetail;
 	
 	@Type(type = "Test1Type")
-	private test1 test1detail;
+	private test1 test1;
 	
 	@Type(type = "Test2Type")
-	private test2 test2detail;
+	private test2 test2;
 	
 	@Type(type ="UserAdditionalInfoType")
 	private UserAdditionalInfo useradditionalinfo;

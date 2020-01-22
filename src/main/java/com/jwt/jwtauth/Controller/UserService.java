@@ -2,6 +2,7 @@ package com.jwt.jwtauth.Controller;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
@@ -23,15 +24,15 @@ public class UserService {
 	}
 	
 	public List<ApplicationUser> findAll() {
-//		Query query = entityManager.createNamedQuery(
-//				"query_find_all_users",ApplicationUser.class);
-//		return query.getResultList();
-//		 
-		List<ApplicationUser> users = entityManager
-				.createQuery("select u from ApplicationUser u")
-				.unwrap( org.hibernate.query.Query.class )
-				.setResultTransformer( Transformers.aliasToBean( ApplicationUser.class ) )
-				.getResultList();
+		Query query = entityManager.createNamedQuery(
+				"query_find_all_users",ApplicationUser.class);
+		return query.getResultList();
+		 
+//		List<ApplicationUser> users = entityManager
+//				.createQuery("select u from ApplicationUser u")
+//				.unwrap( org.hibernate.query.Query.class )
+//				.setResultTransformer( Transformers.aliasToBean( ApplicationUser.class ) )
+//				.getResultList();
 	
-	return users;}
-}
+	//return users;}
+}}

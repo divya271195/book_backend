@@ -4,9 +4,8 @@ import lombok.Data;
 
 @Data
 public class ContactInfo {
-
-	private String mobile;
 	private String faxno;
-	private String pincode;
+	private String mobile;
 	private String phoneno;
+	private String pincode;
 }
