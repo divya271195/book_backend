@@ -37,12 +37,11 @@ public class UserController {
 
 	@GetMapping("/") // GET Method for getting all customer information
 	public List<ApplicationUser> getAllBooks() {
-		//return applicationUserRepository.findUsers();
+		// return applicationUserRepository.findUsers();
 		return userService.findAll();
-	
+
 	}
-	
-	
+
 
 	@GetMapping("/default") // GET Method for getting all customer information
 	public List<ApplicationUser> getAllusers() {
@@ -54,9 +53,9 @@ public class UserController {
 
 	public ApplicationUser signUp(@Valid @RequestBody ApplicationUser user) {
 
-//		address(user.getAddress())
-//				.email(user.getEmail()).password(user.getPassword()).role(user.getRole()).username(user.getUsername()).build();
-//		
+		// address(user.getAddress())
+		// .email(user.getEmail()).password(user.getPassword()).role(user.getRole()).username(user.getUsername()).build();
+		//
 		return applicationUserRepository.save(user);
 
 	}
@@ -65,9 +64,9 @@ public class UserController {
 
 	public void signUpBulk(@Valid @RequestBody List<ApplicationUser> user) {
 
-//		address(user.getAddress())
-//				.email(user.getEmail()).password(user.getPassword()).role(user.getRole()).username(user.getUsername()).build();
-//		
+		// address(user.getAddress())
+		// .email(user.getEmail()).password(user.getPassword()).role(user.getRole()).username(user.getUsername()).build();
+		//
 		for (ApplicationUser appuser : user) {
 			applicationUserRepository.save(appuser);
 		}

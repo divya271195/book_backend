@@ -6,8 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddressINfo {
-
-	
 	private String address;
 	private String city;
 	private String state;

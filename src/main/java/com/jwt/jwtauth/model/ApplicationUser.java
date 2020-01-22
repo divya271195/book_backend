@@ -33,21 +33,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 
-@TypeDefs({ @TypeDef(name = "AddressINfoType", typeClass = AddressINfoTypeDef.class),
-@TypeDef(name = "ContactInfoType", typeClass = ContactInfoTypeDef.class),
-@TypeDef(name = "CourseInfoType", typeClass = CourseInfoTypeDef.class),
-@TypeDef(name = "CardDetailType", typeClass = CardDetailTypeDef.class),
-@TypeDef(name = "RoleDetailType", typeClass = RoleDetailTypeDef.class),
-@TypeDef(name = "Test1Type", typeClass = Test1TypeDef.class),
-@TypeDef(name = "Test2Type", typeClass = Test2TypeDef.class),
-@TypeDef(name = "UserAdditionalInfoType", typeClass = UserAdditionalInfotypeDef.class)
+@TypeDefs({@TypeDef(name = "AddressINfoType", typeClass = AddressINfoTypeDef.class),
+		@TypeDef(name = "ContactInfoType", typeClass = ContactInfoTypeDef.class),
+		@TypeDef(name = "CourseInfoType", typeClass = CourseInfoTypeDef.class),
+		@TypeDef(name = "CardDetailType", typeClass = CardDetailTypeDef.class),
+		@TypeDef(name = "RoleDetailType", typeClass = RoleDetailTypeDef.class),
+		@TypeDef(name = "Test1Type", typeClass = Test1TypeDef.class),
+		@TypeDef(name = "Test2Type", typeClass = Test2TypeDef.class),
+		@TypeDef(name = "UserAdditionalInfoType", typeClass = UserAdditionalInfotypeDef.class)
 
 })
 
-
 @NamedQuery(query = "select u from ApplicationUser u", name = "query_find_all_users")
-
-
 public class ApplicationUser implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -59,30 +56,29 @@ public class ApplicationUser implements Serializable {
 	private String email;
 	private String role;
 	private String contact;
-	
+
 	@Type(type = "AddressINfoType")
 	private AddressINfo addressINfo;
-	
+
 	@Type(type = "ContactInfoType")
 	private ContactInfo contactinfo;
-	
+
 	@Type(type = "CourseInfoType")
 	private CourseInfo courseinfo;
-	
+
 	@Type(type = "CardDetailType")
 	private CardDetail carddetail;
-	
 
 	@Type(type = "RoleDetailType")
 	private roleDetail roledetail;
-	
+
 	@Type(type = "Test1Type")
 	private test1 test1;
-	
+
 	@Type(type = "Test2Type")
 	private test2 test2;
-	
-	@Type(type ="UserAdditionalInfoType")
+
+	@Type(type = "UserAdditionalInfoType")
 	private UserAdditionalInfo useradditionalinfo;
-	
+
 }

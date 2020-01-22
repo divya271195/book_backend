@@ -6,7 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-
+import org.boon.json.JsonFactory;
+import org.boon.json.ObjectMapper;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -49,6 +50,7 @@ public class CustomUserType implements UserType {
 		return x.hashCode();
 	}
 
+
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
 			throws HibernateException, SQLException {
@@ -57,14 +59,22 @@ public class CustomUserType implements UserType {
 		PGobject o = (PGobject) rs.getObject(names[0]);
 		if (o != null && o.getValue() != null) {
 			try {
-				if (returnedType() != null) {
-					return gson.fromJson(o.getValue(), returnedType());
-				}
-				return gson.fromJson(o.getValue(), returnedClass());
+				// if (returnedType() != null) {
+				// return gson.fromJson(o.getValue(), returnedType());
+				// }
+
+				ObjectMapper mapper = JsonFactory.create();
+
+				Object ob = mapper.fromJson(o.getValue(), returnedClass());
+
+				return ob;
+				// return gson.fromJson(o.getValue(), returnedClass());
+
 			} catch (Exception e) {
 				log.error("unable to deserialize value {}", o.getValue(), e);
 			}
 		}
+
 
 		return null;
 	}
@@ -76,9 +86,17 @@ public class CustomUserType implements UserType {
 		if (value == null) {
 			st.setNull(index, Types.OTHER);
 		} else {
-			st.setObject(index, gson.toJson(value, returnedClass()), Types.OTHER);
+			ObjectMapper mapper = JsonFactory.create();
+
+
+			st.setObject(index, mapper.toJson(value), Types.OTHER);
+
+			// st.setObject(index, gson.toJson(value, returnedClass()), Types.OTHER);
 		}
+
+
 	}
+
 
 	public Gson getGson() {
 		Gson gson = new Gson();
