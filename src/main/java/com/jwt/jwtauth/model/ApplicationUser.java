@@ -1,67 +1,88 @@
 package com.jwt.jwtauth.model;
 
-import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import java.io.Serializable;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
+import com.jwt.jwtauth.model.hibernate.AddressINfoTypeDef;
+import com.jwt.jwtauth.model.hibernate.CardDetailTypeDef;
+import com.jwt.jwtauth.model.hibernate.ContactInfoTypeDef;
+import com.jwt.jwtauth.model.hibernate.CourseInfoTypeDef;
+import com.jwt.jwtauth.model.hibernate.RoleDetailTypeDef;
+import com.jwt.jwtauth.model.hibernate.Test1TypeDef;
+import com.jwt.jwtauth.model.hibernate.Test2TypeDef;
+import com.jwt.jwtauth.model.hibernate.UserAdditionalInfotypeDef;
+import javax.persistence.NamedQuery;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@Table(name = "users")
 @Getter
 @Setter
+@NoArgsConstructor
 
-public class ApplicationUser {
+@TypeDefs({ @TypeDef(name = "AddressINfoType", typeClass = AddressINfoTypeDef.class),
+@TypeDef(name = "ContactInfoType", typeClass = ContactInfoTypeDef.class),
+@TypeDef(name = "CourseInfoType", typeClass = CourseInfoTypeDef.class),
+@TypeDef(name = "CardDetailType", typeClass = CardDetailTypeDef.class),
+@TypeDef(name = "RoleDetailType", typeClass = RoleDetailTypeDef.class),
+@TypeDef(name = "Test1Type", typeClass = Test1TypeDef.class),
+@TypeDef(name = "Test2Type", typeClass = Test2TypeDef.class),
+@TypeDef(name = "UserAdditionalInfoType", typeClass = UserAdditionalInfotypeDef.class)
 
+})
+
+
+@NamedQuery(query = "select u from ApplicationUser u", name = "query_find_all_users")
+
+
+public class ApplicationUser implements Serializable {
 	@Id
-
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false)
 	private long id;
-
-	@Pattern(regexp="^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$")
-	@Column(name = "username", nullable = false)
 	private String username;
-
-	
-	@Column(name = "password", nullable = false)
 	private String password;
-
-	@Pattern(regexp = "^[a-zA-Z\\\\s]*$")
-	@Column(name = "name")
 	private String name;
-
-
-	@Column(name = "address")
 	private String address;
-
-@Pattern(regexp="\\S+@\\S+\\.\\S+")
-	@Column(name = "email")
 	private String email;
-
-
-	@Column(name = "role")
-	 private String role;
-
-	@Pattern(regexp="^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$")
+	private String role;
 	private String contact;
+	
+	@Type(type = "AddressINfoType")
+	private AddressINfo addressINfo;
+	
+	@Type(type = "ContactInfoType")
+	private ContactInfo contactInfo;
+	
+	@Type(type = "CourseInfoType")
+	private CourseInfo courseInfo;
+	
+	@Type(type = "CardDetailType")
+	private CardDetail carddetail;
+	
 
-
+	@Type(type = "RoleDetailType")
+	private roleDetail roledetail;
+	
+	@Type(type = "Test1Type")
+	private test1 test1detail;
+	
+	@Type(type = "Test2Type")
+	private test2 test2detail;
+	
+	@Type(type ="UserAdditionalInfoType")
+	private UserAdditionalInfo useradditionalinfo;
+	
 }

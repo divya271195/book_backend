@@ -28,7 +28,6 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int orderid;
-
 	@Column(name = "customeruname")
 	private String username;
 

@@ -193,18 +193,20 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	public UsernamePasswordAuthenticationToken parse(String token, HttpServletRequest req) throws NullPointerException {
 		Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-		ApplicationUser user = new ApplicationUser();
-		
-		String username = claims.get("username", String.class);
-		user = repo.findByUsername(username);
-		String role = user.getRole();
-		String requestURL = new String(req.getRequestURL().toString());
-		if(requestURL.matches("store/books/admin/**")) {
-			if(!role.equals("ADMIN"))
-				{return null;}
-		}
+//		ApplicationUser user = new ApplicationUser();
+//		
+//		String username = claims.get("username", String.class);
+//		user = repo.findByUsername(username);
+//		String role = user.getRole();
+//		String requestURL = new String(req.getRequestURL().toString());
+//		if(requestURL.matches("store/books/admin/**")) {
+//			if(!role.equals("ADMIN"))
+//				{return null;}
+//		}
+//
+//		return  new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 
-		return  new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+	return null;
 	}
 
 

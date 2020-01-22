@@ -57,9 +57,9 @@ public class ExceptionHandlerControllerAdvice extends ResponseEntityExceptionHan
 	public @ResponseBody ResponseEntity handleUserNotFoundException(ResourceNotFoundException ex,
 			WebRequest request) {
 		ExceptionResponse error = new ExceptionResponse();
-		error.setErrorMessage(ex.getErr().getMsg());
+		//error.setErrorMessage(ex.getErr().getMsg());
 
-		error.setErrorCode(ex.getErr().getCode());
+		//error.setErrorCode(ex.getErr().getCode());
 				
 		
 		return new ResponseEntity(error,HttpStatus.NOT_FOUND);

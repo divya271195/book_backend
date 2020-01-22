@@ -1,7 +1,6 @@
 package com.jwt.jwtauth.Exceptions;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.jwt.jwtauth.model.Systemerror;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
