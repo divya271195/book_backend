@@ -65,9 +65,9 @@ public class CustomUserType implements UserType {
 
 				ObjectMapper mapper = JsonFactory.create();
 
-				Object ob = mapper.fromJson(o.getValue(), returnedClass());
+				return mapper.fromJson(o.getValue(), returnedClass());
 
-				return ob;
+				
 				// return gson.fromJson(o.getValue(), returnedClass());
 
 			} catch (Exception e) {

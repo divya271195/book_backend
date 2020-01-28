@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jwt.jwtauth.model.ApplicationUser;
+import com.jwt.jwtauth.model.UserResponse;
+import com.jwt.jwtauth.model.DBApplicationUser;
 import com.jwt.jwtauth.repo.ApplicationUserRepository;
 
 @RestController
@@ -23,40 +25,41 @@ import com.jwt.jwtauth.repo.ApplicationUserRepository;
 
 public class UserController {
 
+	@Autowired
 	private ApplicationUserRepository applicationUserRepository;
 	@Autowired
 	private UserService userService;
 
-	public UserController(ApplicationUserRepository applicationUserRepository,
+	//public UserController(ApplicationUserRepository applicationUserRepository) {
 
-			BCryptPasswordEncoder bCryptPasswordEncoder) {
+		//this.applicationUserRepository = applicationUserRepository;
 
-		this.applicationUserRepository = applicationUserRepository;
-
-	}
+	//}
 
 	@GetMapping("/") // GET Method for getting all customer information
-	public List<ApplicationUser> getAllBooks() {
-		// return applicationUserRepository.findUsers();
-		return userService.findAll();
+	public List<ApplicationUser> getAllUsers() {
+		UserResponse userresponse=new UserResponse();
+		applicationUserRepository.findAll().forEach(user -> {
+			userresponse.getUserList().add(user.toDomain());
+		});
+		return userresponse.getUserList();
 
 	}
 
 
 	@GetMapping("/default") // GET Method for getting all customer information
-	public List<ApplicationUser> getAllusers() {
+	public List<DBApplicationUser> getAllusers() {
 
 		return applicationUserRepository.findAll();
 	}
 
 	@PostMapping("/sign-up")
 
-	public ApplicationUser signUp(@Valid @RequestBody ApplicationUser user) {
-
-		// address(user.getAddress())
-		// .email(user.getEmail()).password(user.getPassword()).role(user.getRole()).username(user.getUsername()).build();
-		//
-		return applicationUserRepository.save(user);
+	public DBApplicationUser signUp(@Valid @RequestBody ApplicationUser user) {
+		DBApplicationUser newUser=new DBApplicationUser().from(user);
+		
+		
+		return applicationUserRepository.save(newUser);
 
 	}
 
@@ -68,7 +71,7 @@ public class UserController {
 		// .email(user.getEmail()).password(user.getPassword()).role(user.getRole()).username(user.getUsername()).build();
 		//
 		for (ApplicationUser appuser : user) {
-			applicationUserRepository.save(appuser);
+			applicationUserRepository.save(new DBApplicationUser().from(appuser));
 		}
 
 	}
